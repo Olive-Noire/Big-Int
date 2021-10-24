@@ -372,6 +372,18 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
     bool operator[](std::size_t index) const { return m_sequence[index]; }
     bool& operator[](std::size_t index) { return m_sequence[index]; }
 
+    template <std::size_t Base = __CHAR_BIT__> friend constexpr std::size_t VirtualMemorySize(const Static_Binary_Unsigned_Int &n) {
+
+        return Bits/Base;
+        
+    }
+
+    template <std::size_t Base = __CHAR_BIT__> friend constexpr std::size_t TotalMemorySize(const Static_Binary_Unsigned_Int &n) {
+
+        return VirtualMemorySize(n)+sizeof(n.m_sequence);
+
+    }
+
     friend bool IsPair(const Static_Binary_Unsigned_Int &n) { return !n.LSD(); }
 
     friend std::string Sequence(const Static_Binary_Unsigned_Int &n) {
