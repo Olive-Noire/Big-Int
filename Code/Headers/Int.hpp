@@ -1,6 +1,7 @@
 #ifndef DEF_INT_HPP
 #define DEF_INT_HPP
 
+#include <algorithm>
 #include <iostream>
 #include <cassert>
 #include <cstdint>
@@ -13,6 +14,8 @@
 #include <cmath>
 
 #include "./StringUtils.hpp"
+
+std::string ConvertBinaryBaseTo(std::string, std::size_t);
 
 template <std::size_t Bits> class Static_Binary_Unsigned_Int {
 
@@ -384,9 +387,9 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
 
     }
 
-    friend std::string ToString(const Static_Binary_Unsigned_Int &n) {
+    friend std::string ToString(Static_Binary_Unsigned_Int n) {
 
-        return std::to_string(ToULL(n));
+        return ConvertBinaryBaseTo(Sequence(n), 10);
 
     }
 
