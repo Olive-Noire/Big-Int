@@ -5,9 +5,11 @@
 
 int main() {
 
-    Static_Binary_Unsigned_Int<4> b1{7}, b2{5};
+    Static_Binary_Unsigned_Int<16> n{20387};
+    std::size_t shift{7};
 
-    std::cout << b1-b2 << ' ' << VirtualMemorySize<1>(b1);
+    std::cout << Sequence(n) << " >> " << shift << " = " << Sequence(n >> shift);
+
     std::cin.get();
     //std::cout << Sequence(b1) << "(2) - " << Sequence(b2) << "(2) = " << Sequence(b1-b2) << "(2) = " << b1 << "(10) - " << b2 << "(10) = " << b1-b2 << "(10)";
     

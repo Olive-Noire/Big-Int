@@ -291,37 +291,60 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
         
     }
 
-    friend Static_Binary_Unsigned_Int operator&(const Static_Binary_Unsigned_Int &l, const Static_Binary_Unsigned_Int &r);
-    friend Static_Binary_Unsigned_Int operator|(const Static_Binary_Unsigned_Int &l, const Static_Binary_Unsigned_Int &r);
-    friend Static_Binary_Unsigned_Int operator^(const Static_Binary_Unsigned_Int &l, const Static_Binary_Unsigned_Int &r);
-    friend Static_Binary_Unsigned_Int operator>>(const Static_Binary_Unsigned_Int &l, const Static_Binary_Unsigned_Int &r);
+    friend Static_Binary_Unsigned_Int operator&(const Static_Binary_Unsigned_Int &n, std::size_t) {
 
-    friend Static_Binary_Unsigned_Int operator<<(const Static_Binary_Unsigned_Int &l, const Static_Binary_Unsigned_Int &r) {
+        return n;
 
-        Static_Binary_Unsigned_Int result{l};
+    }
 
-        if (r >= Bits) {
+    friend Static_Binary_Unsigned_Int operator|(const Static_Binary_Unsigned_Int &n, std::size_t) {
 
-            return 0;
+        return n;
 
-        } else {
+    }
 
-            for (std::size_t i{static_cast<std::size_t>(ToULL(r))}; i < Bits; i++) {
-                
-                std::cout << i-r << ' ';
-                result[i-r] = result[i];
+    friend Static_Binary_Unsigned_Int operator^(const Static_Binary_Unsigned_Int &n, std::size_t) {
 
-            }
+        return n;
 
-            for (std::size_t i{0}; Static_Binary_Unsigned_Int{i} < r; i++) {
+    }
 
-                result[Bits-1-i] = false;
+    Static_Binary_Unsigned_Int& operator>>(std::size_t shift) {
+
+        Static_Binary_Unsigned_Int copy;
+
+        if (shift < Bits) {
+
+            for (std::size_t i{shift}; i < Bits; i++) {
+
+                copy.m_sequence[i] = m_sequence[i-shift];
 
             }
 
         }
 
-        return result;
+        *this = copy;
+        return *this;
+
+    }
+
+    Static_Binary_Unsigned_Int& operator<<(std::size_t shift) {
+
+        Static_Binary_Unsigned_Int copy;
+
+        if (shift < Bits) {
+
+            for (std::size_t i{shift}; i < Bits; i++) {
+
+                const std::size_t index{Bits-1-i};
+                copy.m_sequence[index] = m_sequence[index+shift];
+
+            }
+
+        }
+
+        *this = copy;
+        return *this;
 
     }
 
@@ -372,16 +395,10 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
     bool operator[](std::size_t index) const { return m_sequence[index]; }
     bool& operator[](std::size_t index) { return m_sequence[index]; }
 
-    template <std::size_t Base = __CHAR_BIT__> friend constexpr std::size_t VirtualMemorySize(const Static_Binary_Unsigned_Int &n) {
+    template <std::size_t Base = __CHAR_BIT__> friend constexpr std::size_t MemorySize(const Static_Binary_Unsigned_Int &n) {
 
-        return Bits/Base;
+        return Bits*8/Base;
         
-    }
-
-    template <std::size_t Base = __CHAR_BIT__> friend constexpr std::size_t TotalMemorySize(const Static_Binary_Unsigned_Int &n) {
-
-        return VirtualMemorySize(n)+sizeof(n.m_sequence);
-
     }
 
     friend bool IsPair(const Static_Binary_Unsigned_Int &n) { return !n.LSD(); }
