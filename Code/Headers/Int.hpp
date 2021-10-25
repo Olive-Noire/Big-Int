@@ -465,21 +465,7 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
     Static_Binary_Unsigned_Int& operator=(const Static_Binary_Unsigned_Int&) = default;
     Static_Binary_Unsigned_Int& operator=(Static_Binary_Unsigned_Int&&) noexcept = default;
 
-    operator std::uintmax_t() {
-
-        // assert(*this <= Static_Binary_Unsigned_Int{std::numeric_limits<std::uintmax_t>::max()});
-
-        std::uintmax_t result{0};
-        for (std::size_t i{0}; i < Bits; i++) {
-            
-            if (m_sequence[Bits-1-i]) result += std::pow(2, i);
-
-        }
-
-        return result;
-
-    }
-
+    operator std::uintmax_t() { return ToULL(*this); }
     operator std::string() { return ToString(*this); }
 
     friend std::ostream& operator<<(std::ostream &flux, const Static_Binary_Unsigned_Int &n) {
