@@ -1,7 +1,6 @@
 #ifndef DEF_INT_HPP
 #define DEF_INT_HPP
 
-#include <algorithm>
 #include <iostream>
 #include <cassert>
 #include <cstdint>
@@ -15,8 +14,6 @@
 
 #include "./StringUtils.hpp"
 
-std::string ConvertBinaryBaseTo(std::string, std::size_t);
-
 template <std::size_t Bits> class Static_Binary_Unsigned_Int {
 
     public:
@@ -29,6 +26,34 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
 
     Static_Binary_Unsigned_Int(const Static_Binary_Unsigned_Int&) = default;
     Static_Binary_Unsigned_Int(Static_Binary_Unsigned_Int&&) noexcept = default;
+
+    template <std::size_t Bits_Other> Static_Binary_Unsigned_Int(const Static_Binary_Unsigned_Int<Bits_Other> &n) {
+
+        std::size_t writeLimit{Bits};
+        if (Bits_Other < Bits) writeLimit = Bits_Other;
+
+        for (std::size_t i{0}; i < Bits; i++) {
+
+            m_sequence[Bits-1-i] = false;
+
+            if (i <= writeLimit) {
+                
+                m_sequence[Bits-1-i] = n[Bits_Other-1-i];
+
+            }
+
+        }
+
+    }
+
+    explicit Static_Binary_Unsigned_Int(std::int8_t n) : Static_Binary_Unsigned_Int{static_cast<std::uintmax_t>(n)} {}
+    explicit Static_Binary_Unsigned_Int(std::int16_t n) : Static_Binary_Unsigned_Int{static_cast<std::uintmax_t>(n)} {}
+    explicit Static_Binary_Unsigned_Int(std::int32_t n) : Static_Binary_Unsigned_Int{static_cast<std::uintmax_t>(n)} {}
+    explicit Static_Binary_Unsigned_Int(std::intmax_t n) : Static_Binary_Unsigned_Int{static_cast<std::uintmax_t>(n)} {}
+
+    explicit Static_Binary_Unsigned_Int(std::uint8_t n) : Static_Binary_Unsigned_Int{static_cast<std::uintmax_t>(n)} {}
+    explicit Static_Binary_Unsigned_Int(std::uint16_t n) : Static_Binary_Unsigned_Int{static_cast<std::uintmax_t>(n)} {}
+    explicit Static_Binary_Unsigned_Int(std::uint32_t n) : Static_Binary_Unsigned_Int{static_cast<std::uintmax_t>(n)} {}
 
     Static_Binary_Unsigned_Int(std::uintmax_t n) {
 
@@ -92,6 +117,32 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
         for (bool &b : result.m_sequence) b = true;
 
         return result;
+
+    }
+
+    static Static_Binary_Unsigned_Int MakeRand(Static_Binary_Unsigned_Int min = 0, Static_Binary_Unsigned_Int max = Static_Binary_Unsigned_Int::Max()) {
+
+        if (min == max) {
+            
+            return min;
+
+        } else if (max < min) {
+
+            return 0;
+
+        } else {
+
+            Static_Binary_Unsigned_Int r;
+
+            for (bool &b : r.m_sequence) {
+            
+                b = std::rand()%2;
+
+            }
+
+            return min+(r%max);
+
+        }
 
     }
 
@@ -260,6 +311,8 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
     }
 
     friend Static_Binary_Unsigned_Int operator/(const Static_Binary_Unsigned_Int &l, const Static_Binary_Unsigned_Int &r) {
+
+        assert(r != 0);
 
         Static_Binary_Unsigned_Int<Bits> count{0}, temp{l};
         while (temp >= r) {

@@ -1,5 +1,6 @@
 #include "../Headers/StringUtils.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 
@@ -177,5 +178,40 @@ std::string CopyPopBack(const std::string &s, std::size_t repeat) {
         return copy;
 
     }
+
+}
+
+std::string ConvertBinaryBaseTo(std::string binary, std::size_t base) {
+
+    std::string result;
+
+    do {
+
+        unsigned int remainder{0};
+        std::string temp;
+
+        for (const char bit : binary) {
+
+            remainder = remainder*2+(bit-'0');
+
+            if (remainder >= base) {
+
+                remainder -= base;
+                temp += "1";
+
+            } else {
+
+                temp += "0";
+
+            }
+                
+        } 
+
+        binary = temp;
+        result.insert(0, 1, '0'+remainder);
+
+    } while (std::count(binary.begin(), binary.end(), '1'));
+
+    return result;
 
 }

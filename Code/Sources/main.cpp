@@ -1,27 +1,16 @@
 #include <iostream>
 
-#include "../Headers/StringUtils.hpp"
-#include "../Headers/Tests.hpp"
+#include "../Headers/Int.hpp"
 
 int main() {
 
-    Static_Binary_Unsigned_Int<16> n{20387};
-    std::size_t shift{7};
+    Static_Binary_Unsigned_Int<16> a, b;
 
-    std::cout << Sequence(n) << " >> " << shift << " = " << Sequence(n >> shift);
-
-    std::cin.get();
-    //std::cout << Sequence(b1) << "(2) - " << Sequence(b2) << "(2) = " << Sequence(b1-b2) << "(2) = " << b1 << "(10) - " << b2 << "(10) = " << b1-b2 << "(10)";
-    
-    D_Dynamic_SInt a{420};
-    D_Dynamic_SInt b{"48879554321858363547485554545557454555445"};
-
-    if (ToString(a+b) != "+48879554321858363547485554545557454555865") std::cout << "Addition non implemente correctement\n";
-    if (ToString(a-b) != "-48879554321858363547485554545557454555025") std::cout << "Soustraction non implemente correctement\n";
-    if (ToString(a*b) != "+20529412815180512689943932909134130913286900") std::cout << "Multiplication non implemente correctement\n";
-    // if (ToString(b/a) != "+116379891242519913208298939394184415608") std::cout << "Division non implemente correctement\n";
-
-    //std::cout << "Si aucun message ne s'affiche alors l'implementation est correcte !";
+    std::cout << a << " + " << b << " = " << a+b << std::endl;
+    std::cout << a << " - " << b << " = " << a-b << std::endl;
+    std::cout << a << " * " << b << " = " << a*b << std::endl;
+    std::cout << a << " / " << b << " = " << a/b << std::endl;
+    std::cout << a << " % " << b << " = " << a%b << std::endl;
 
     return 0;
 

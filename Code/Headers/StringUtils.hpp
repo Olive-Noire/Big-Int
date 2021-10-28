@@ -25,4 +25,6 @@ std::string Reverse(const std::string&);
 std::string CopyPopFront(const std::string&, std::size_t = 1);
 std::string CopyPopBack(const std::string&, std::size_t = 1);
 
+std::string ConvertBinaryBaseTo(std::string, std::size_t);
+
 #endif // DEF_STRING_OPERATIONS
