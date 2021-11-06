@@ -288,9 +288,9 @@ class Dynamic_Custom_Base_Signed_Float {};
 
 using Binary16 = Static_IEEE754_Binary16_Float;
 using Binary32 = Static_IEEE754_Binary32_Float;
-using Binary44 = Static_IEEE754_Binary44_Float;
+using Binary44 = Static_IEEE754_Extend_Binary44_Float;
 using Binary64 = Static_IEEE754_Binary64_Float;
-using Binary80 = Static_IEEE754_Binary80_Float;
+using Binary80 = Static_IEEE754_Extend_Binary80_Float;
 using Binary128 = Static_IEEE754_Binary128_Float;
 
 #endif // DEF_FLOAT_HPP
