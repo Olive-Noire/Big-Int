@@ -3,6 +3,19 @@
 
 #include "./Int.hpp"
 
+class Static_IEEE754_Binary16_Float {
+
+    public:
+
+    private:
+
+    bool m_sign;
+
+    Static_Binary_Signed_Int<5> m_exponent;
+    Static_Binary_Unsigned_Int<10> m_mantissa;
+
+};
+
 class Static_IEEE754_Binary32_Float {
 
     public:
@@ -65,6 +78,22 @@ class Static_IEEE754_Binary128_Float {
 
     Static_Binary_Signed_Int<15> m_exponent;
     Static_Binary_Unsigned_Int<112> m_mantissa;
+
+};
+
+template <bool Signed, std::size_t Exponent_Bits, std::size_t Mantissa_Bits> class Static_Custom_Precision_IEEE_Model_Binary_Float {
+
+    public:
+
+    bool IsSigned() const { return Signed; }
+    bool IsUnsigned() const { return !Signed; }
+
+    private:
+
+    bool m_sign;
+
+    Static_Binary_Signed_Int<Exponent_Bits> m_exponent;
+    Static_Binary_Unsigned_Int<Mantissa_Bits> m_mantissa;
 
 };
 
