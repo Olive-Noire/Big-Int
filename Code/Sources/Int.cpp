@@ -121,13 +121,13 @@ Dynamic_Binary_Signed_Int operator^(const Dynamic_Binary_Signed_Int &l, const Dy
 
 }
 
-Dynamic_Binary_Signed_Int operator>>(const Dynamic_Binary_Signed_Int &l, const Dynamic_Binary_Signed_Int &r) {
+Dynamic_Binary_Signed_Int operator>>(const Dynamic_Binary_Signed_Int &n, std::size_t shift) {
 
 
 
 }
 
-Dynamic_Binary_Signed_Int operator<<(const Dynamic_Binary_Signed_Int &l, const Dynamic_Binary_Signed_Int &r) {
+Dynamic_Binary_Signed_Int operator<<(const Dynamic_Binary_Signed_Int &n, std::size_t shift) {
 
 
 
@@ -188,7 +188,20 @@ bool IsPair(const Dynamic_Binary_Signed_Int &n) { return !n.m_sequence.back(); }
 
 std::string ToString(const Dynamic_Binary_Signed_Int &n) {
 
+    return ConvertBinaryBaseTo(Sequence(*this), 10)
 
+}
+
+std::string Sequence(const Dynamic_Binary_Signed_Int &n) {
+
+    std::string result;
+    for (bool b : n.m_sequence) {
+
+        result.push_back('0'+b);
+
+    }
+
+    return result;
 
 }
 
@@ -240,14 +253,14 @@ std::ostream& operator<<(std::ostream &flux, const Dynamic_Binary_Signed_Int &n)
 
 }
 
-Dynamic_Decimal_Signed_Int::Dynamic_Decimal_Signed_Int() : m_sign{true}, m_value{"0"} {}
+Dynamic_Decimal_Signed_Int::Dynamic_Decimal_Signed_Int() : m_sign{false}, m_value{"0"} {}
 
 Dynamic_Decimal_Signed_Int::Dynamic_Decimal_Signed_Int(const std::string &s) : m_sign{s[0] != '-'}, m_value{LStrip(Strip(s), '0')} {
 
     if (!IsNumber(Strip(s)) && !((Strip(s)[0] == '-' || Strip(s)[0] == '+') && IsNumber(CopyPopFront(Strip(s))))) {
         
         m_value = "0";
-        m_sign = true;
+        m_sign = false;
 
     }
 
@@ -255,7 +268,7 @@ Dynamic_Decimal_Signed_Int::Dynamic_Decimal_Signed_Int(const std::string &s) : m
 
 }
 
-Dynamic_Decimal_Signed_Int::Dynamic_Decimal_Signed_Int(std::intmax_t n) : m_sign{n >= 0}, m_value{std::to_string(n)} {
+Dynamic_Decimal_Signed_Int::Dynamic_Decimal_Signed_Int(std::intmax_t n) : m_sign{n < 0}, m_value{std::to_string(n)} {
 
     if (m_value[0] == '-') m_value.erase(m_value.begin());
     
@@ -299,7 +312,7 @@ Dynamic_Decimal_Signed_Int operator+(const Dynamic_Decimal_Signed_Int &l, const 
 
     if (l.m_sign != r.m_sign) {
 
-        return l-r;
+        return l-(-r);
 
     } else {
 
@@ -409,7 +422,7 @@ Dynamic_Decimal_Signed_Int operator-(const Dynamic_Decimal_Signed_Int &l, const 
         while (operation.size() > 1 && operation[0] == '0') operation.erase(operation.begin());
 
         Dynamic_Decimal_Signed_Int result{operation};
-        result.m_sign = l.m_sign && l > r;
+        result.m_sign = l.m_sign && l <= r;
 
         return result;
 
@@ -455,7 +468,7 @@ Dynamic_Decimal_Signed_Int operator*(const Dynamic_Decimal_Signed_Int &l, const 
             Dynamic_Decimal_Signed_Int result{left};
 
             for (Dynamic_Decimal_Signed_Int i{1}; i < right; i++) result += left;
-            result.m_sign = (l.m_sign == r.m_sign);
+            result.m_sign = (l.m_sign != r.m_sign);
 
             return result;
 
@@ -487,7 +500,7 @@ Dynamic_Decimal_Signed_Int operator/(const Dynamic_Decimal_Signed_Int &l, const 
 
         }
 
-        result.m_sign = (l.m_sign == r.m_sign);
+        result.m_sign = (l.m_sign != r.m_sign);
         return result;
 
     }
@@ -513,7 +526,7 @@ bool operator<(const Dynamic_Decimal_Signed_Int &l, const Dynamic_Decimal_Signed
 
     } else if (l.m_sign != r.m_sign) {
 
-        return !l.m_sign;
+        return l.m_sign;
 
     } else if (l.m_value.size() != r.m_value.size()) {
 
@@ -542,7 +555,7 @@ std::string ToString(const Dynamic_Decimal_Signed_Int &n) {
 
     std::string result{n.m_value};
 
-    if (n.m_sign) {
+    if (!n.m_sign) {
 
         result.insert(result.begin(), '+');
 
@@ -559,7 +572,7 @@ std::string ToString(const Dynamic_Decimal_Signed_Int &n) {
 Dynamic_Decimal_Signed_Int Abs(const Dynamic_Decimal_Signed_Int &n) {
 
     Dynamic_Decimal_Signed_Int copy{n};
-    copy.m_sign = true;
+    copy.m_sign = false;
 
     return copy;
 
@@ -596,7 +609,7 @@ Dynamic_Decimal_Signed_Int::operator std::string() { return ToString(*this); }
 
 std::ostream& operator<<(std::ostream &flux, const Dynamic_Decimal_Signed_Int &n) {
 
-    if (!n.m_sign) flux << '-';
+    if (n.m_sign) flux << '-';
     flux << n.m_value;
 
     return flux;

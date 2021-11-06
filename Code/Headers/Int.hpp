@@ -167,6 +167,8 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
     constexpr std::size_t BytesCount() { return Bits/8; }
 
     Static_Binary_Unsigned_Int operator+() { return *this; }
+     Static_Binary_Unsigned_Int operator!() { return *this == 0; }
+
     Static_Binary_Unsigned_Int operator~() {
 
         Static_Binary_Unsigned_Int temp{*this};
@@ -520,6 +522,7 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
 
     operator std::uintmax_t() { return ToULL(*this); }
     operator std::string() { return ToString(*this); }
+    operator bool() { return *this != 0; }
 
     friend std::ostream& operator<<(std::ostream &flux, const Static_Binary_Unsigned_Int &n) {
 
@@ -627,6 +630,8 @@ class Dynamic_Binary_Signed_Int {
 
     friend bool IsPair(const Dynamic_Binary_Signed_Int&);
     friend std::string ToString(const Dynamic_Binary_Signed_Int&);
+
+    friend std::string Sequence(const Dynamic_Binary_Signed_Int&);
 
     friend Dynamic_Binary_Signed_Int Abs(const Dynamic_Binary_Signed_Int&);
     friend Dynamic_Binary_Signed_Int Pow(const Dynamic_Binary_Signed_Int&, const Dynamic_Binary_Signed_Int&);
