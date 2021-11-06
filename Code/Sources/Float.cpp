@@ -12,6 +12,25 @@ Static_IEEE754_Binary16_Float::Static_IEEE754_Binary16_Float(float x) {
 
 }
 
+Static_IEEE754_Binary16_Float Static_IEEE754_Binary16_Float::Pi() {
+
+
+
+}
+
+Static_IEEE754_Binary16_Float Static_IEEE754_Binary16_Float::Exp() {
+
+
+
+}
+
+Static_IEEE754_Binary16_Float Static_IEEE754_Binary16_Float::Phi() {
+
+    
+
+}
+
+
 Static_IEEE754_Binary16_Float Static_IEEE754_Binary16_Float::MakeRand(const Static_IEEE754_Binary16_Float &min, const Static_IEEE754_Binary16_Float &max) {
 
     
@@ -397,12 +416,6 @@ friend std::ostream& operator<<(std::ostream &flux, const Static_IEEE754_Binary1
 }
 
 friend std::istream operator>>(std::istream &flux, const Static_IEEE754_Binary16_Float x) {
-
-
-
-}
-
-Static_IEEE754_Binary16_Float::operator std::string() {
 
 
 

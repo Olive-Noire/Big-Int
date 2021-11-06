@@ -521,7 +521,6 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
     Static_Binary_Unsigned_Int& operator=(Static_Binary_Unsigned_Int&&) noexcept = default;
 
     operator std::uintmax_t() { return ToULL(*this); }
-    operator std::string() { return ToString(*this); }
     operator bool() { return *this != 0; }
 
     friend std::ostream& operator<<(std::ostream &flux, const Static_Binary_Unsigned_Int &n) {
@@ -642,8 +641,6 @@ class Dynamic_Binary_Signed_Int {
 
     Dynamic_Binary_Signed_Int& operator=(const Dynamic_Binary_Signed_Int&) = default;
     Dynamic_Binary_Signed_Int& operator=(Dynamic_Binary_Signed_Int&&) noexcept = default;
-
-    operator std::string();
 
     friend std::ostream& operator<<(std::ostream&, const Dynamic_Binary_Signed_Int&);
 

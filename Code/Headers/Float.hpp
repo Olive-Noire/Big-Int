@@ -16,7 +16,7 @@ class Static_IEEE754_Binary16_Float {
 
     ~Static_IEEE754_Binary16_Float() = default;
 
-    static constexpr Static_IEEE754_Binary16_Float PositifInfinity() {
+    static Static_IEEE754_Binary16_Float PositifInfinity() {
 
         Static_IEEE754_Binary16_Float inf;
         // inf.m_exponent = Static_Binary_Signed_Int<5>::Min();
@@ -25,9 +25,9 @@ class Static_IEEE754_Binary16_Float {
 
     }
 
-    static constexpr Static_IEEE754_Binary16_Float NegatifInfinity() { return -PositifInfinity(); }
+    static Static_IEEE754_Binary16_Float NegatifInfinity() { return -PositifInfinity(); }
 
-    static constexpr Static_IEEE754_Binary16_Float Max() {
+    static Static_IEEE754_Binary16_Float Max() {
 
         Static_IEEE754_Binary16_Float m;
 
@@ -38,9 +38,9 @@ class Static_IEEE754_Binary16_Float {
 
     }
 
-    static constexpr Static_IEEE754_Binary16_Float Min() { return -Max(); }
+    static Static_IEEE754_Binary16_Float Min() { return -Max(); }
 
-    static constexpr Static_IEEE754_Binary16_Float AbsMinNormalized() {
+    static Static_IEEE754_Binary16_Float AbsMinNormalized() {
 
         Static_IEEE754_Binary16_Float m;
         // m.m_exponent = Static_Binary_Signed_Int<5>::Min()+1;
@@ -49,7 +49,7 @@ class Static_IEEE754_Binary16_Float {
 
     }
 
-    static constexpr Static_IEEE754_Binary16_Float AbsMinDenormalized() {
+    static Static_IEEE754_Binary16_Float AbsMinDenormalized() {
 
         Static_IEEE754_Binary16_Float m;
 
@@ -60,9 +60,9 @@ class Static_IEEE754_Binary16_Float {
 
     }
 
-    static constexpr Static_IEEE754_Binary16_Float Pi{3.14159265358979};
-    static constexpr Static_IEEE754_Binary16_Float Exp{2.71828182845904};
-    static constexpr Static_IEEE754_Binary16_Float Phi{1.61803398874989};
+    static Static_IEEE754_Binary16_Float Pi();
+    static Static_IEEE754_Binary16_Float Exp();
+    static Static_IEEE754_Binary16_Float Phi();
 
     static Static_IEEE754_Binary16_Float MakeRand(const Static_IEEE754_Binary16_Float& = 0, const Static_IEEE754_Binary16_Float& = Max());
 
@@ -115,6 +115,12 @@ class Static_IEEE754_Binary16_Float {
     friend std::string ToString(const Static_IEEE754_Binary16_Float&);
     friend float ToFloat(const Static_IEEE754_Binary16_Float&);
 
+    template <std::size_t Base = 2> friend Static_IEEE754_Binary16_Float Log(const Static_IEEE754_Binary16_Float&) {
+
+
+
+    }
+
     Static_IEEE754_Binary16_Float operator+();
     Static_IEEE754_Binary16_Float operator-();
 
@@ -153,7 +159,6 @@ class Static_IEEE754_Binary16_Float {
     friend std::ostream& operator<<(std::ostream&, const Static_IEEE754_Binary16_Float&);
     friend std::istream operator>>(std::istream&, const Static_IEEE754_Binary16_Float);
 
-    operator std::string();
     operator float();
     operator bool();
 

@@ -244,8 +244,6 @@ Dynamic_Binary_Signed_Int Pow(const Dynamic_Binary_Signed_Int &n, const Dynamic_
 Dynamic_Binary_Signed_Int CA1(const Dynamic_Binary_Signed_Int &n) { return ~n; }
 Dynamic_Binary_Signed_Int CA2(const Dynamic_Binary_Signed_Int &n) { return CA1(n)+1; }
 
-Dynamic_Binary_Signed_Int::operator std::string() { return ToString(*this); }
-
 std::ostream& operator<<(std::ostream &flux, const Dynamic_Binary_Signed_Int &n) {
 
     flux << ToString(n);
