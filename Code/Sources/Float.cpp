@@ -26,7 +26,7 @@ Static_IEEE754_Binary16_Float Static_IEEE754_Binary16_Float::Exp() {
 
 Static_IEEE754_Binary16_Float Static_IEEE754_Binary16_Float::Phi() {
 
-    
+
 
 }
 
@@ -58,6 +58,12 @@ bool Static_IEEE754_Binary16_Float::IsInfinity() const {
 bool Static_IEEE754_Binary16_Float::IsInfinityWithSign(bool s) const {
 
 
+
+}
+
+bool IsNaN() const {
+
+    
 
 }
 
@@ -266,6 +272,12 @@ std::string ToString(const Static_IEEE754_Binary16_Float &x) {
 }
 
 float ToFloat(const Static_IEEE754_Binary16_Float &x) {
+
+
+
+}
+
+bool FloatsEquals(const Static_IEEE754_Binary16_Float &l, const Static_IEEE754_Binary16_Float &r) {
 
 
 

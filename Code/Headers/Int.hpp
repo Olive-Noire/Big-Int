@@ -506,8 +506,8 @@ template <std::size_t Bits> class Static_Binary_Unsigned_Int {
 
         } else {
 
-            Static_Binary_Unsigned_Int temp{Pow(n, p/2)};
-            return temp*temp;
+            Static_Binary_Unsigned_Int buffer{Pow(n, p/2)};
+            return buffer*buffer;
 
         }
 
@@ -540,7 +540,149 @@ template <std::size_t Bits> class Static_Binary_Signed_Int {
 
     public:
 
+    Static_Binary_Signed_Int();
+
+    explicit Static_Binary_Signed_Int(std::int8_t n) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(n)} {}
+    explicit Static_Binary_Signed_Int(std::int16_t n) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(n)} {}
+    explicit Static_Binary_Signed_Int(std::int32_t n) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(n)} {}
+
+    explicit Static_Binary_Signed_Int(std::uint8_t x) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(x)} {}
+    explicit Static_Binary_Signed_Int(std::uint16_t x) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(x)} {}
+    explicit Static_Binary_Signed_Int(std::uint32_t x) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(x)} {}
+    explicit Static_Binary_Signed_Int(std::uintmax_t x) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(x)} {}
+
+    Static_Binary_Signed_Int(std::intmax_t x) {
+
+        
+
+    }
+
+    Static_Binary_Signed_Int(const Static_Binary_Signed_Int&) = default;
+    Static_Binary_Signed_Int(Static_Binary_Signed_Int&&) = default;
+
+    ~Static_Binary_Signed_Int() = default;
+
+    static Static_Binary_Signed_Int Max() {
+
+
+
+    }
+
+    static Static_Binary_Signed_Int Min() {
+
+
+        
+    }
+
+    static Static_Binary_Signed_Int MakeRand(const Static_Binary_Signed_Int &min = Min(), const Static_Binary_Signed_Int &max = Max()) {
+
+
+        
+    }
+
+    bool MSD() const {}
+    bool LSD() const {}
+
+    constexpr std::size_t BitsCount() const {}
+    constexpr std::size_t BytesCount() const {}
+
+    friend bool IsPair(const Static_Binary_Signed_Int &x) {}
+
+    friend Static_Binary_Signed_Int Abs(const Static_Binary_Signed_Int &x) {}
+    friend Static_Binary_Signed_Int Sgn(const Static_Binary_Signed_Int &x) {}
+
+    friend Static_Binary_Signed_Int Pow(const Static_Binary_Signed_Int &x, std::size_t p) {}
+
+    friend Static_Binary_Signed_Int CA1(const Static_Binary_Signed_Int &x) {}
+    friend Static_Binary_Signed_Int CA2(const Static_Binary_Signed_Int &x) {}
+    template <std::size_t Base> friend Static_Binary_Signed_Int CA(const Static_Binary_Signed_Int &x) {}
+
+    friend std::string ToString(const Static_Binary_Signed_Int &x) {}
+    friend std::intmax_t ToInt(const Static_Binary_Signed_Int &x) {}
+
+    friend std::string Sequence(const Static_Binary_Signed_Int &x) {}
+
+    Static_Binary_Signed_Int operator+() {}
+    Static_Binary_Signed_Int operator-() {}
+
+    Static_Binary_Signed_Int operator~() {}
+    Static_Binary_Signed_Int operator!() {}
+
+    Static_Binary_Signed_Int& operator++() {}
+    Static_Binary_Signed_Int& operator--() {}
+
+    Static_Binary_Signed_Int& operator++(int) {}
+    Static_Binary_Signed_Int& operator--(int) {}
+
+    friend Static_Binary_Signed_Int operator+(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+    friend Static_Binary_Signed_Int operator-(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+    friend Static_Binary_Signed_Int operator*(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+    friend Static_Binary_Signed_Int operator/(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+    friend Static_Binary_Signed_Int operator%(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+
+    friend Static_Binary_Signed_Int operator&(const Static_Binary_Signed_Int &n, std::size_t) {
+
+        return n;
+
+    }
+
+    friend Static_Binary_Signed_Int operator|(const Static_Binary_Signed_Int &n, std::size_t) {
+
+        return n;
+
+    }
+
+    friend Static_Binary_Signed_Int operator^(const Static_Binary_Signed_Int &n, std::size_t) {
+
+        return n;
+
+    }
+
+    Static_Binary_Signed_Int& operator<<(std::size_t shift) {
+
+
+
+    }
+
+    Static_Binary_Signed_Int& operator>>(std::size_t shift) {
+
+        
+
+    }
+
+    Static_Binary_Signed_Int operator+=(const Static_Binary_Signed_Int &x) {}
+    Static_Binary_Signed_Int operator-=(const Static_Binary_Signed_Int &x) {}
+    Static_Binary_Signed_Int operator*=(const Static_Binary_Signed_Int &x) {}
+    Static_Binary_Signed_Int operator/=(const Static_Binary_Signed_Int &x) {}
+    Static_Binary_Signed_Int operator%=(const Static_Binary_Signed_Int &x) {}
+
+    friend bool operator==(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+    friend bool operator!=(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+
+    friend bool operator<(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+    friend bool operator<=(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+
+    friend bool operator>(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+    friend bool operator>=(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
+
+    Static_Binary_Signed_Int& operator=(const Static_Binary_Signed_Int&) = default;
+    Static_Binary_Signed_Int& operator=(Static_Binary_Signed_Int&&) = default;
+
+    friend std::ostream& operator<<(std::ostream &flux, const Static_Binary_Signed_Int &x) {
+
+
+
+    }
+
+    friend std::istream& operator>>(std::istream &flux, const Static_Binary_Signed_Int &x) {
+
+        
+
+    }
+
     private:
+
+    std::array<bool, Bits+1> m_sequence;
 
 };
 

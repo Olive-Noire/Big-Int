@@ -72,6 +72,8 @@ class Static_IEEE754_Binary16_Float {
     bool IsInfinity() const;
     bool IsInfinityWithSign(bool) const;
 
+    bool IsNaN() const;
+
     bool GetSign() const;
     Static_Binary_Signed_Int<5> GetExponent() const;
     Static_Binary_Signed_Int<11> GetMantissa() const;
@@ -114,6 +116,8 @@ class Static_IEEE754_Binary16_Float {
 
     friend std::string ToString(const Static_IEEE754_Binary16_Float&);
     friend float ToFloat(const Static_IEEE754_Binary16_Float&);
+
+    friend bool FloatsEquals(const Static_IEEE754_Binary16_Float&, const Static_IEEE754_Binary16_Float&);
 
     template <std::size_t Base = 2> friend Static_IEEE754_Binary16_Float Log(const Static_IEEE754_Binary16_Float&) {
 
