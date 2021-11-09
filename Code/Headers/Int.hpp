@@ -540,7 +540,11 @@ template <std::size_t Bits> class Static_Binary_Signed_Int {
 
     public:
 
-    Static_Binary_Signed_Int();
+    Static_Binary_Signed_Int() {
+
+        for (bool &b : m_sequence) b = false;
+
+    }
 
     explicit Static_Binary_Signed_Int(std::int8_t n) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(n)} {}
     explicit Static_Binary_Signed_Int(std::int16_t n) : Static_Binary_Signed_Int{static_cast<std::uintmax_t>(n)} {}
@@ -553,7 +557,34 @@ template <std::size_t Bits> class Static_Binary_Signed_Int {
 
     Static_Binary_Signed_Int(std::intmax_t x) {
 
-        
+        if (Bits > 0) {
+
+            if (n == 0) {
+
+                for (bool &b : m_sequence) b = false;
+
+            } else {
+
+                x[0] = (x < 0);
+
+                for (std::size_t i{0}; i < Bits; i++) {
+
+                    if (n > 0) {
+
+                        m_sequence[Bits-1-i] = n%2;
+                        n /= 2;
+
+                    } else {
+
+                        m_sequence[Bits-1-i] = false;
+
+                    }
+
+                }
+
+            }
+
+        }
 
     }
 
@@ -564,43 +595,138 @@ template <std::size_t Bits> class Static_Binary_Signed_Int {
 
     static Static_Binary_Signed_Int Max() {
 
+        Static_Binary_Signed_Int x;
+        for (std::size_t i{1}; i < Bits; i++) x[i] = true;
 
+        return x;
 
     }
 
-    static Static_Binary_Signed_Int Min() {
-
-
-        
-    }
+    static Static_Binary_Signed_Int Min() { return -Max(); }
 
     static Static_Binary_Signed_Int MakeRand(const Static_Binary_Signed_Int &min = Min(), const Static_Binary_Signed_Int &max = Max()) {
 
+        if (max < min) {
 
+            return 0;
+
+        } else if (min == max) {
+
+            return min;
+
+        } else {
+
+            Static_Binary_Signed_Int r;
+            for (std::size_t i{min >= 0}; i < Bits; i++) r[i] = std::rand()%2;
+
+            return min+(r%max);
+
+        }
         
     }
 
-    bool MSD() const {}
-    bool LSD() const {}
+    bool MSD() const { return m_sequence[0]; }
+    bool LSD() const { return m_sequence.back(); }
 
-    constexpr std::size_t BitsCount() const {}
-    constexpr std::size_t BytesCount() const {}
+    constexpr std::size_t BitsCount() const { return Bits; }
+    constexpr std::size_t BytesCount() const { return Bits/8; }
 
-    friend bool IsPair(const Static_Binary_Signed_Int &x) {}
+    friend bool IsPair(const Static_Binary_Signed_Int &x) { return !x.LSD(); }
 
-    friend Static_Binary_Signed_Int Abs(const Static_Binary_Signed_Int &x) {}
-    friend Static_Binary_Signed_Int Sgn(const Static_Binary_Signed_Int &x) {}
+    friend Static_Binary_Signed_Int Abs(const Static_Binary_Signed_Int &x) {
+
+        if (x >= 0) {
+
+            return x;
+
+        } else {
+
+            return CA2(x);
+
+        }
+
+    }
+
+    friend int Sgn(const Static_Binary_Signed_Int &x) {
+
+        if (x < 0) {
+
+            return -1;
+
+        } else if (x == 0) {
+
+            return 0;
+
+        } else {
+
+            return 1;
+
+        }
+
+    }
 
     friend Static_Binary_Signed_Int Pow(const Static_Binary_Signed_Int &x, std::size_t p) {}
 
-    friend Static_Binary_Signed_Int CA1(const Static_Binary_Signed_Int &x) {}
-    friend Static_Binary_Signed_Int CA2(const Static_Binary_Signed_Int &x) {}
-    template <std::size_t Base> friend Static_Binary_Signed_Int CA(const Static_Binary_Signed_Int &x) {}
+    friend Static_Binary_Signed_Int CA1(const Static_Binary_Signed_Int &x) { return ~x; }
+    friend Static_Binary_Signed_Int CA2(const Static_Binary_Signed_Int &x) { return CA1(x)+1; }
+    template <std::size_t Base> friend Static_Binary_Signed_Int CA(const Static_Binary_Signed_Int &x) { return CA1(x)+(Base-1); }
 
-    friend std::string ToString(const Static_Binary_Signed_Int &x) {}
-    friend std::intmax_t ToInt(const Static_Binary_Signed_Int &x) {}
+    friend std::string ToString(const Static_Binary_Signed_Int &x) {
 
-    friend std::string Sequence(const Static_Binary_Signed_Int &x) {}
+        std::string buffer{Sequence(x)};
+        buffer.erase(buffer.begin());
+
+        buffer = ConvertBinaryBaseTo(buffer, 10);
+        
+        if (x[0]) {
+
+            return '-'+buffer;
+
+        } else {
+
+            return '+'+buffer;
+
+        }
+
+    }
+
+    friend std::intmax_t ToInt(const Static_Binary_Signed_Int &x) {
+
+        Static_Binary_Signed_Int buffer{Abs(x)};
+
+        std::intmax_t result{0};
+        for (std::size_t i{0}; i < buffer.m_sequence.size(); i++) {
+            
+            if (buffer.m_sequence[Bits-1-i]) result += std::pow(2, i);
+
+        }
+
+        if (x[0]) {
+
+            return -result;
+
+        } else {
+
+            return result;
+
+        }
+
+    }
+
+    friend std::string Sequence(const Static_Binary_Signed_Int &x) {
+
+        std::string s;
+        for (bool &b : x.m_sequence) s.push_back('0'+b);
+
+        return s;
+
+    }
+
+    template <std::size_t Base = __CHAR_BIT__> friend constexpr std::size_t MemorySize(const Static_Binary_Signed_Int &n) {
+
+        return Bits*8/Base;
+        
+    }
 
     Static_Binary_Signed_Int operator+() {}
     Static_Binary_Signed_Int operator-() {}
@@ -650,11 +776,11 @@ template <std::size_t Bits> class Static_Binary_Signed_Int {
 
     }
 
-    Static_Binary_Signed_Int operator+=(const Static_Binary_Signed_Int &x) {}
-    Static_Binary_Signed_Int operator-=(const Static_Binary_Signed_Int &x) {}
-    Static_Binary_Signed_Int operator*=(const Static_Binary_Signed_Int &x) {}
-    Static_Binary_Signed_Int operator/=(const Static_Binary_Signed_Int &x) {}
-    Static_Binary_Signed_Int operator%=(const Static_Binary_Signed_Int &x) {}
+    Static_Binary_Signed_Int operator+=(const Static_Binary_Signed_Int &x) { return *this = *this+x; }
+    Static_Binary_Signed_Int operator-=(const Static_Binary_Signed_Int &x) { return *this = *this-x; }
+    Static_Binary_Signed_Int operator*=(const Static_Binary_Signed_Int &x) { return *this = *this*x; }
+    Static_Binary_Signed_Int operator/=(const Static_Binary_Signed_Int &x) { return *this = *this/x; }
+    Static_Binary_Signed_Int operator%=(const Static_Binary_Signed_Int &x) { return *this = *this%x; }
 
     friend bool operator==(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
     friend bool operator!=(const Static_Binary_Signed_Int &l, const Static_Binary_Signed_Int &r) {}
@@ -668,9 +794,16 @@ template <std::size_t Bits> class Static_Binary_Signed_Int {
     Static_Binary_Signed_Int& operator=(const Static_Binary_Signed_Int&) = default;
     Static_Binary_Signed_Int& operator=(Static_Binary_Signed_Int&&) = default;
 
+    bool operator[](std::size_t index) const { return m_sequence[index]; }
+    bool& operator[](std::size_t index) { return m_sequence[index]; }
+
+    operator std::intmax_t() { return ToInt(*this); }
+    operator bool() { return *this != 0; }
+
     friend std::ostream& operator<<(std::ostream &flux, const Static_Binary_Signed_Int &x) {
 
-
+        flux << ToString(x);
+        return flux;
 
     }
 

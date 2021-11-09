@@ -19,7 +19,7 @@ class Static_IEEE754_Binary16_Float {
     static Static_IEEE754_Binary16_Float PositifInfinity() {
 
         Static_IEEE754_Binary16_Float inf;
-        // inf.m_exponent = Static_Binary_Signed_Int<5>::Min();
+        inf.m_exponent = Static_Binary_Signed_Int<5>::Min();
 
         return inf;
 
@@ -31,7 +31,7 @@ class Static_IEEE754_Binary16_Float {
 
         Static_IEEE754_Binary16_Float m;
 
-        // m.m_exponent = Static_Binary_Signed_Int<5>::Max()-1;
+        m.m_exponent = Static_Binary_Signed_Int<5>::Max()-1;
         m.m_mantissa = Static_Binary_Unsigned_Int<11>::Max();
 
         return m;
@@ -43,7 +43,7 @@ class Static_IEEE754_Binary16_Float {
     static Static_IEEE754_Binary16_Float AbsMinNormalized() {
 
         Static_IEEE754_Binary16_Float m;
-        // m.m_exponent = Static_Binary_Signed_Int<5>::Min()+1;
+        m.m_exponent = Static_Binary_Signed_Int<5>::Min()+1;
 
         return m;
 
@@ -53,7 +53,7 @@ class Static_IEEE754_Binary16_Float {
 
         Static_IEEE754_Binary16_Float m;
 
-        // m.m_exponent = Static_Binary_Signed_Int<5>::Min();
+        m.m_exponent = Static_Binary_Signed_Int<5>::Min();
         m.m_mantissa = 1;
 
         return m;
